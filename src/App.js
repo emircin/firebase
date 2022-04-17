@@ -1,23 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import FormComponent from './components/form/FormComponent';
+import Contacts from "./components/contacts/Contacts"
+import { useState } from "react";
+import { EditUser, SendInfo } from './utils/functions';
+
+const initialValues = { username: "", phoneNumber: "", gender: "NO INFO" }
 
 function App() {
+
+  const[info, setInfo] = useState(initialValues);
+
+  const handleFormSubmit = (e) =>{
+    e.preventDefault();
+    if(info.id) {
+      EditUser(info)
+    }
+    else {
+      SendInfo(info)
+    }
+  }
+
+  const editHandler=(id, username, phoneNumber, gender)=>{
+    setInfo({id,username, phoneNumber, gender})
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <FormComponent info={info} setInfo={setInfo} handleFormsubmit={handleFormSubmit}/>
+      <Contacts editHandler={editHandler}/>
+
     </div>
   );
 }
